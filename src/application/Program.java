@@ -1,10 +1,9 @@
 package application;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
+import exceptions.BusinessException;
 import model.entities.Account;
 
 public class Program {
@@ -14,7 +13,6 @@ public class Program {
 		Locale.setDefault(Locale.US);
 		Scanner sc = new Scanner(System.in);
 		
-		List<Account> list = new ArrayList<>();
 		 System.out.println("Enter account data");
 		 System.out.print("Number: ");
 		 int N = sc.nextInt();
@@ -27,24 +25,18 @@ public class Program {
 		 double limit = sc.nextDouble();
 		 
 		 Account account = new Account(N, holder, balance, limit);
-		 list.add(account);
 		 
 		 System.out.print("Enter amount for withdraw: ");
 		 double amountWithdraw = sc.nextDouble();
-		 System.out.println("");
-		 
-		 for (int i=1; i<N; i++) {
-			 System.out.print("Enter amount for withdraw: ");
-			 double amountWithdraw = sc.nextDouble();
-			 
+		
+		 try {
+			 account.withdraw(amountWithdraw);
+			 System.out.printf("New Balance: %.2f", account.getBalance());
 		 }
-		 
-		 
-	
-		
-		
+		 catch (BusinessException e) {
+			 System.out.println(e.getMessage());
+		 }
 		sc.close();
-
 	}
 
 }
